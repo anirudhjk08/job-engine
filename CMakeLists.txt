@@ -16,3 +16,10 @@ target_include_directories(job_engine PRIVATE
   include
 
 )
+add_executable(job_engine_test
+tests/JobEngineTest.cpp
+)
+
+target_include_directories(job_engine_test PRIVATE
+include
+)
