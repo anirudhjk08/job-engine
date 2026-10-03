@@ -23,3 +23,15 @@ tests/JobEngineTest.cpp
 target_include_directories(job_engine_test PRIVATE
 include
 )
+add_executable(job_server
+examples/server.cpp
+)
+target_include_directories(job_server PRIVATE 
+include)
+target_link_libraries(job_server PRIVATE
+ws2_32)
+add_executable(job_client
+examples/client.cpp
+)
+target_link_libraries(job_client PRIVATE 
+ws2_32)
