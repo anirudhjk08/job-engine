@@ -1,15 +1,23 @@
-#include<iostream>
-#include "Job.h"
-#include "JobQueue.h"
-void calculate(){
-    std::cout<<"Calculating...\n";
-}
+#include <iostream>
 
-int main(){
-    JobQueue queue;
-    Job job(calculate);
-    queue.addJob(std::move(job));
-    auto receivedJob = queue.getJob();
-    receivedJob->execute();
+#include "Job.h"
+#include "JobEngine.h"
+
+int main() {
+    JobEngine engine(3);
+
+    engine.start();
+
+        engine.submit(Job([]() {
+            std::cout<<"Normal Job\n";
+        })); 
+        engine.submit(Job([](){
+          throw std::runtime_error("Something went wrong!");
+        }));
+        engine.submit(Job([](){
+         std::cout<<"Another normal job\n";
+        }));
+    engine.shutdown();
+
     return 0;
 }

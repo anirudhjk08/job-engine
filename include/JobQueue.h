@@ -13,10 +13,12 @@ class JobQueue{
   std::condition_variable cv;
   bool shutdown = false;
   public:
-  void addJob(Job job){
+  bool addJob(Job job){
     std::lock_guard<std::mutex> lock(mtx);
+    if(shutdown) return false;
     jobs.push(std::move(job));
     cv.notify_one();
+    return true;
   }
   std::optional<Job> getJob(){
     std::unique_lock<std::mutex> lock(mtx);
